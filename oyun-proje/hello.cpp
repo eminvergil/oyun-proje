@@ -1,5 +1,7 @@
 #include <allegro5\allegro.h>
 #include <allegro5\allegro_primitives.h>
+#include <allegro5\allegro_font.h>
+#include <allegro5\allegro_ttf.h>
 #include "objects.h"
 
 //GLOBALS==============================
@@ -22,17 +24,21 @@ void initBull(Bullet bul[], int size);
 void drawBull(Bullet bul[], int size);
 void fireBull(Bullet bul[], int size,SpaceShip &ship);
 void updateBull(Bullet bul[], int size);
+void CollideBull(Bullet bul[], int Bsize, Enemy en[], int eSize,SpaceShip &ship);
 //enemy
 void initEnemy(Enemy en[], int size);
 void drawEnemy(Enemy en[], int size);
 void startEnemy(Enemy en[], int size);
 void updateEnemy(Enemy en[], int size);
+void CollideEnemy(Enemy en[], int eSize, SpaceShip &ship);
 int main(void)
 {
 	//primitive variable
 	bool done = false;
 	bool redraw = true;
 	const int FPS = 50;
+	bool isGameOver = false;
+
 	SpaceShip ship;
 	Bullet bullets[num_bullets];
 	Enemy enem[num_enemy];
@@ -41,6 +47,7 @@ int main(void)
 	ALLEGRO_DISPLAY *display = NULL;
 	ALLEGRO_EVENT_QUEUE *qq = NULL;
 	ALLEGRO_TIMER *t = NULL;
+	ALLEGRO_FONT *font = NULL;
 	//Initialization Functions
 	if (!al_init())										//initialize Allegro
 		return -1;
@@ -52,6 +59,8 @@ int main(void)
 
 	al_init_primitives_addon();
 	al_install_keyboard();
+	al_init_font_addon();
+	al_init_ttf_addon();
 
 	qq = al_create_event_queue();
 	t = al_create_timer(1.0 / FPS);
@@ -60,6 +69,8 @@ int main(void)
 	InitShip(ship);
 	initBull(bullets, num_bullets);
 	initEnemy(enem, num_enemy);
+
+	font = al_load_font("arial.ttf", 23, 0);
 
 	al_register_event_source(qq, al_get_keyboard_event_source());
 	al_register_event_source(qq, al_get_timer_event_source(t));
@@ -80,9 +91,15 @@ int main(void)
 				MLEFT(ship);
 			if (keys[RIGHT])
 				MRIGHT(ship);
-			updateBull(bullets, num_bullets);
-			startEnemy(enem, num_bullets);
-			updateEnemy(enem, num_bullets);
+			if (!isGameOver) {
+				updateBull(bullets, num_bullets);
+				startEnemy(enem, num_bullets);
+				updateEnemy(enem, num_bullets);
+				CollideBull(bullets, num_bullets, enem, num_enemy,ship);
+				CollideEnemy(enem, num_enemy, ship);
+				if (ship.lives <= 0)
+					isGameOver = true;
+			}
 		}
 		if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
 			done = true;
@@ -138,13 +155,19 @@ int main(void)
 
 			}
 		}
-
+		
 		////
-		if (redraw && al_is_event_queue_empty(qq)){
+		if (redraw && al_is_event_queue_empty(qq)) {
 			redraw = false;
-			DrawShip(ship);
-			drawBull(bullets, num_bullets);
-			drawEnemy(enem, num_enemy);
+			if (!isGameOver) {
+				DrawShip(ship);
+				drawBull(bullets, num_bullets);
+				drawEnemy(enem, num_enemy);
+				al_draw_textf(font, al_map_rgb(255, 0, 255), 5, 5, 0, "Live : %i Score: %i", ship.lives,ship.score);
+			}
+			else {
+				al_draw_textf(font, al_map_rgb(0, 255, 255), w/2, h/2, ALLEGRO_ALIGN_CENTRE, "Game Over bitch.Score : %i",ship.score);
+				}
 
 			al_flip_display();
 			al_clear_to_color(al_map_rgb(0, 0, 0));
@@ -248,6 +271,29 @@ void updateBull(Bullet bul[], int size)
 		}
 	}
 }
+void CollideBull(Bullet bul[], int Bsize, Enemy en[],int eSize, SpaceShip &ship)
+{
+	for (int i = 0; i < Bsize; i++)
+	{
+		if (bul[i].live) {
+			for (int j = 0; j < eSize; j++)
+			{
+				if (en[i].live) 
+				{
+					if (bul[i].x > (en[j].x - en[j].boundx) &&
+						bul[i].x < (en[j].x + en[j].boundx) &&
+						bul[i].y >(en[j].y - en[j].boundy) &&
+						bul[i].y < (en[j].y + en[j].boundy))
+					{
+						bul[i].live = false;
+						en[j].live = false;
+						ship.score++;
+					}
+				}
+			}
+		}
+	}
+}
 ////////////ENEMY
 void initEnemy(Enemy en[], int size)
 {
@@ -256,8 +302,8 @@ void initEnemy(Enemy en[], int size)
 		en[i].ID = ENEMY;
 		en[i].live = false;
 		en[i].speed = 5;
-		en[i].boundx = 19;
-		en[i].boundy = 19;
+		en[i].boundx = 18;
+		en[i].boundy = 18;
 	}
 }
 
@@ -293,8 +339,27 @@ void updateEnemy(Enemy en[], int size)
 	{
 		if (en[i].live) {
 			en[i].x -= en[i].speed;
-			if (en[i].x < 0)
+		}
+	}
+}
+
+void CollideEnemy(Enemy en[], int eSize, SpaceShip & ship)
+{
+	for (int i = 0; i < eSize; i++)
+	{
+		if (en[i].live) {
+			if (en[i].x - en[i].boundx < ship.x + ship.boundx &&
+				en[i].x + en[i].boundx > ship.x - ship.boundx &&
+				en[i].y - en[i].boundy < ship.y + ship.boundy &&
+				en[i].y + en[i].boundy > ship.y - ship.boundy)
+			{
+				ship.lives--;
 				en[i].live = false;
+			}
+			else if(en[i].x < 0){
+				en[i].live = false;
+				ship.lives--;
+			}
 		}
 	}
 }
