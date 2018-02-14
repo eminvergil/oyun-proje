@@ -11,7 +11,7 @@ const int h = 600;
 
 snake sn(200,200,1,1);
 int main(void) 
-{
+{	
 	bool done = false;
 	bool draw = true;
 	////allegro things//////
@@ -45,8 +45,8 @@ int main(void)
 		{
 			//printf("BLABLA");
 			draw = true;
-			sn.show();
 			sn.update();
+			sn.show();
 		}
 		else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
 		{
@@ -61,6 +61,10 @@ int main(void)
 					break;
 				case ALLEGRO_KEY_UP:
 					sn.dir(0, -1);
+					break;
+				case ALLEGRO_KEY_1:
+					sn.total++;
+					printf("bla");
 					break;
 				case ALLEGRO_KEY_DOWN:
 					sn.dir(0, 1);

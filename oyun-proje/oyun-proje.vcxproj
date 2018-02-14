@@ -99,6 +99,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
     </ClCompile>
     <Link />
   </ItemDefinitionGroup>
@@ -143,6 +144,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="objects.h" />
+    <ClInclude Include="tail.h" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="D:\SINAV\arial.ttf" />
