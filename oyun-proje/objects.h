@@ -1,34 +1,29 @@
-//Object IDs
-enum IDS { PLAYER, BULLET, ENEMY };
+#include<allegro5\allegro.h>
 
-//Our Player
-struct SpaceShip
-{
-	int ID;
-	int x;
-	int y;
-	int lives;
-	int speed;
-	int boundx;
-	int boundy;
-	int score;
-};
+class snake {
+private:
+	int x, y, xspeed, yspeed;
+public :
+	snake(int _x,int _y, int _xspeed, int _yspeed) {
+		x = _x;
+		y = _y;
+		xspeed = _xspeed;
+		yspeed = _yspeed;
+	}
 
-struct Bullet {
-	int ID;
-	int x;
-	int y;
-	bool live;
-	int speed;
-};
-
-struct Enemy
-{
-	int ID;
-	int x;
-	int y;
-	bool live;
-	int speed;
-	int boundx;
-	int boundy;
+	void update() {
+		x += xspeed;
+		y += yspeed;
+		if (x < 0) x = 0;
+		else if (y < 0) y = 0;
+		else if (x >= 600) x = 600;
+		else if (y >= 600) y = 600;
+	}
+	void dir(int _x, int _y) {
+		xspeed = _x*5;
+		yspeed = _y*5;
+	}
+	void show() {
+		al_draw_filled_rectangle(x, y - 20, x + 20, y - 40, al_map_rgb(111,10,222));
+	}
 };
