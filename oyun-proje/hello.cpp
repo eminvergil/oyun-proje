@@ -2,16 +2,23 @@
 #include <allegro5\allegro_primitives.h>
 #include <allegro5\allegro_font.h>
 #include <allegro5\allegro_ttf.h>
+#include<stdlib.h>
+#include<time.h>
 #include<stdio.h>
 #include "objects.h"
 
 //GLOBALS==============================
 const int w = 600;
 const int h = 600;
+int fx = 150;
+int fy = 150;
+bool eatFood();
+void drawFood();
 
 snake sn(200,200,1,1);
 int main(void) 
 {	
+	srand(time(NULL));
 	bool done = false;
 	bool draw = true;
 	////allegro things//////
@@ -41,12 +48,22 @@ int main(void)
 	{
 		ALLEGRO_EVENT ev;
 		al_wait_for_event(que, &ev);
+	
 		if(ev.type == ALLEGRO_EVENT_TIMER)
 		{
 			//printf("BLABLA");
 			draw = true;
 			sn.update();
 			sn.show();
+			drawFood();
+			if (eatFood())
+			{
+				sn.total++;
+				fx = rand()%540;
+				fy = rand()%540;
+				if (fx < 60 || fx > 540) fx = 250;
+				if (fy < 60 || fy > 540) fy = 250;
+			}	
 		}
 		else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
 		{
@@ -60,20 +77,16 @@ int main(void)
 					done = true;
 					break;
 				case ALLEGRO_KEY_UP:
-					sn.dir(0, -1);
-					break;
-				case ALLEGRO_KEY_1:
-					sn.total++;
-					printf("bla");
+					sn.dir(0, -5);
 					break;
 				case ALLEGRO_KEY_DOWN:
-					sn.dir(0, 1);
+					sn.dir(0, 5);
 					break;
 				case ALLEGRO_KEY_RIGHT:
-					sn.dir(1, 0);
+					sn.dir(5, 0);
 					break;
 				case ALLEGRO_KEY_LEFT:
-					sn.dir(-1, 0);
+					sn.dir(-5, 0);
 					break;
 			}
 		}
@@ -88,4 +101,15 @@ int main(void)
 
 	al_destroy_display(display);
 	return 0;
+}
+bool eatFood() {
+	bool d = (sn.x - fx < 10 && sn.y - fy < 10);
+	bool b = (sn.tail[0].x - fx < 10 && sn.tail[0].y - fy < 10);
+	if (d && b)
+		return true;
+	else
+		return false;
+}
+void drawFood() {
+	al_draw_filled_circle(fx, fy, 5, al_map_rgb(0, 222, 0));
 }
