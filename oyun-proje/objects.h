@@ -6,7 +6,6 @@
 class snake {
 public:
 	int x, y, xspeed, yspeed;
-	int x1, y1;
 	int total = 1;
 	Tail tail[100];
 	
@@ -15,8 +14,6 @@ public:
 		y = _y;
 		xspeed = _xspeed;
 		yspeed = _yspeed;	
-		x1 = x;
-		y1 = y;
 	}
 
 	void update() {
@@ -33,10 +30,6 @@ public:
 		else if (y < 60) y = 60;
 		else if (x >= 540) x = 540;
 		else if (y >= 541) y = 540;
-		x1 = x;
-		y1 = y;
-		tail[total - 1].x = x1;
-		tail[total - 1].y = y1;
 
 	}
 	void dir(int _x, int _y) {

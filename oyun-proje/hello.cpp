@@ -38,7 +38,7 @@ int main(void)
 
 	que = al_create_event_queue();
 	timer = al_create_timer(1./60);
-
+	drawFood();
 	al_register_event_source(que, al_get_keyboard_event_source());
 	al_register_event_source(que, al_get_timer_event_source(timer));
 	al_register_event_source(que, al_get_display_event_source(display));
@@ -55,7 +55,7 @@ int main(void)
 			draw = true;
 			sn.update();
 			sn.show();
-			drawFood();
+
 			if (eatFood())
 			{
 				sn.total++;
@@ -63,6 +63,7 @@ int main(void)
 				fy = rand()%540;
 				if (fx < 60 || fx > 540) fx = 250;
 				if (fy < 60 || fy > 540) fy = 250;
+				drawFood();
 			}	
 		}
 		else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
@@ -104,8 +105,7 @@ int main(void)
 }
 bool eatFood() {
 	bool d = (sn.x - fx < 10 && sn.y - fy < 10);
-	bool b = (sn.tail[0].x - fx < 10 && sn.tail[0].y - fy < 10);
-	if (d && b)
+	if (d )
 		return true;
 	else
 		return false;
