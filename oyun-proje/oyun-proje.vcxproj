@@ -141,13 +141,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="hello.cpp" />
+    <ClCompile Include="snake.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="objects.h" />
-    <ClInclude Include="tail.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Font Include="D:\SINAV\arial.ttf" />
+    <ClInclude Include="fizik.h" />
+    <ClInclude Include="food.h" />
+    <ClInclude Include="functions.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

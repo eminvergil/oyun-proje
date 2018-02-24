@@ -18,21 +18,22 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="objects.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="tail.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="hello.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="snake.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Font Include="D:\SINAV\arial.ttf">
-      <Filter>Source Files</Filter>
-    </Font>
+    <ClInclude Include="fizik.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="food.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="functions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
