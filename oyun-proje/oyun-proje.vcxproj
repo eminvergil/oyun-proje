@@ -147,6 +147,7 @@
     <ClInclude Include="fizik.h" />
     <ClInclude Include="food.h" />
     <ClInclude Include="functions.h" />
+    <ClInclude Include="tail.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

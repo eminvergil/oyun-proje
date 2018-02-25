@@ -1,8 +1,11 @@
 #include<allegro5\allegro_primitives.h>
 #include<math.h>
+#include "tail.h"
 class snake {
+private:
+	tail t(x1, y1);
 public:
-	int _x, _y,_xspeed = 1,_yspeed = 0,total = 0;
+	int _x,_y, _xspeed = 1,_yspeed = 0,total = 0;
 	float a = .1;
 	snake(){}//default constructor
 	snake(int x,int y) {
@@ -14,6 +17,7 @@ public:
 		_yspeed = y;
 	}
 	void update() {
+		t.update();
 		_x += _xspeed*2;
 		_y += _yspeed*2;
 		_x = constrain(_x, 50, 330);

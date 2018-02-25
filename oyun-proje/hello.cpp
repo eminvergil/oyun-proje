@@ -8,6 +8,7 @@ bool done = false;
 snake sn(222, 200);
 food  fd(111, 111);
 functions func;
+tail tay;
 int main()
 {
 	ALLEGRO_DISPLAY *display = NULL;
@@ -50,6 +51,7 @@ int main()
 		sn.a += .011;
 		if (rectIntersect()) {
 			sn.total++;
+			tay.totaly++;
 			float x = rand() % 400;
 			float y = rand() % 400;
 			x = func.constrain(x, 50, 340);
@@ -57,6 +59,7 @@ int main()
 			fd._x = x;
 			fd._y = y;
 		}
+		tay.show();
 		fd.show();
 		al_draw_rectangle(50, 50, 350, 350, al_map_rgb(255, 255, 255), 1);//MAP
 		al_flip_display();
