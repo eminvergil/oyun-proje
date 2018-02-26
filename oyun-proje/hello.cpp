@@ -1,6 +1,7 @@
 #include<allegro5\allegro.h>
+#include<allegro5\allegro_font.h>
+#include<allegro5\allegro_ttf.h>
 #include "snake.h"
-#include "food.h"
 #define w 400
 #define h 400
 bool rectIntersect();
@@ -8,12 +9,12 @@ bool done = false;
 snake sn(222, 200);
 food  fd(111, 111);
 functions func;
-tail tay;
 int main()
 {
 	ALLEGRO_DISPLAY *display = NULL;
 	ALLEGRO_EVENT_QUEUE *que = NULL;
 	ALLEGRO_TIMER *timer = NULL;
+	ALLEGRO_FONT *font;
 	if (!al_init())
 		return -1;
 	display = al_create_display(w, h);
@@ -21,9 +22,12 @@ int main()
 		return -1;
 	al_init_primitives_addon();
 	al_install_keyboard();
+	al_init_font_addon();
+	al_init_ttf_addon();
 
 	que = al_create_event_queue();
 	timer = al_create_timer(1. / 60.);//60fps
+	font = al_load_font("arial.ttf", 18, 0);
 	
 	al_register_event_source(que, al_get_timer_event_source(timer));
 	al_register_event_source(que, al_get_keyboard_event_source());
@@ -38,20 +42,19 @@ int main()
 			switch (ev.keyboard.keycode)
 			{
 					case ALLEGRO_KEY_ESCAPE:		done = true; break;
-					case ALLEGRO_KEY_UP:	sn.direction(0, -2); break;
-					case ALLEGRO_KEY_DOWN:	sn.direction(0,  2); break;
-					case ALLEGRO_KEY_LEFT:	sn.direction(-2, 0); break;
-					case ALLEGRO_KEY_RIGHT: sn.direction( 2, 0); break;
+					case ALLEGRO_KEY_UP:	sn.takeRA(0); sn.direction(0, -2); break;
+					case ALLEGRO_KEY_DOWN:	sn.takeRA(1); sn.direction(0,  2); break;
+					case ALLEGRO_KEY_LEFT:	sn.takeRA(2); sn.direction(-2, 0); break;
+					case ALLEGRO_KEY_RIGHT: sn.takeRA(3); sn.direction( 2, 0); break;
 			}
 		}
-		printf("%d \n", sn.total);
+		//printf("%d \n", sn.total);
 		sn.update();
 		sn.show();
 		sn.make();
-		sn.a += .011;
+		sn.a += .01;
 		if (rectIntersect()) {
 			sn.total++;
-			tay.totaly++;
 			float x = rand() % 400;
 			float y = rand() % 400;
 			x = func.constrain(x, 50, 340);
@@ -59,7 +62,7 @@ int main()
 			fd._x = x;
 			fd._y = y;
 		}
-		tay.show();
+		al_draw_textf(font, al_map_rgb(255, 255, 255), 5, 5, 0, "SCOR : %d", sn.total);
 		fd.show();
 		al_draw_rectangle(50, 50, 350, 350, al_map_rgb(255, 255, 255), 1);//MAP
 		al_flip_display();

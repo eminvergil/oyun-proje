@@ -1,13 +1,6 @@
-﻿  snake.h
-c:\users\pc\documents\github\oyun-proje\oyun-proje\snake.h(4): error C2365: 'y1': redefinition; previous definition was 'function'
-  c:\program files\windows kits\10\include\10.0.10240.0\ucrt\math.h(972): note: see declaration of 'y1'
-c:\users\pc\documents\github\oyun-proje\oyun-proje\snake.h(5): error C2664: 'tail::tail(tail &&)': cannot convert argument 2 from 'double (__cdecl *)(double)' to 'int'
-  c:\users\pc\documents\github\oyun-proje\oyun-proje\snake.h(5): note: There is no context in which this conversion is possible
-c:\users\pc\documents\github\oyun-proje\oyun-proje\snake.h(15): error C2659: '=': function as left operand
-  hello.cpp
-c:\users\pc\documents\github\oyun-proje\oyun-proje\snake.h(4): error C2365: 'y1': redefinition; previous definition was 'function'
-  c:\program files\windows kits\10\include\10.0.10240.0\ucrt\math.h(972): note: see declaration of 'y1'
-c:\users\pc\documents\github\oyun-proje\oyun-proje\snake.h(5): error C2664: 'tail::tail(tail &&)': cannot convert argument 2 from 'double (__cdecl *)(double)' to 'int'
-  c:\users\pc\documents\github\oyun-proje\oyun-proje\snake.h(5): note: There is no context in which this conversion is possible
-c:\users\pc\documents\github\oyun-proje\oyun-proje\snake.h(15): error C2659: '=': function as left operand
+﻿  hello.cpp
   Generating Code...
+  Skipping... (no relevant changes detected)
+  snake.h
+  oyun-proje.vcxproj -> C:\Users\PC\Documents\GitHub\oyun-proje\Debug\oyun-proje.exe
+  oyun-proje.vcxproj -> C:\Users\PC\Documents\GitHub\oyun-proje\Debug\oyun-proje.pdb (Partial PDB)
